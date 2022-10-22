@@ -1,0 +1,11 @@
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+
+sudo systemctl start postgresql.service
+
+#Switch over to the postgres account on your server by typing:
+
+    sudo -i -u postgres
+
+#Accessing a Postgres Prompt Without Switching Accounts
+    sudo -u postgres psql
