@@ -1,0 +1,43 @@
+
+-- create
+CREATE TABLE EMPLOYEE (
+  empId int PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  location varchar(20) NOT NULL,
+  age int,
+  salary int
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'India',35,32000);
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'US',32,30000);
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'India',26,40000);
+INSERT INTO EMPLOYEE VALUES (0004, 'Shivam', 'India',34,32000);
+INSERT INTO EMPLOYEE VALUES (0005, 'Rahul', 'India',25,30000);
+INSERT INTO EMPLOYEE VALUES (0006, 'Rohit', 'India',26,40000);
+
+-- fetch 
+SELECT name,age,location,salary,count(*) over (partition by location) as count, avg(salary) over(partition by location) as average FROM EMPLOYEE ;
+
+Output:
+
+name	age	location		salary		count		average
+Clark	 35	India			32000	        5	  		34800.0000
+Ava		26	India			40000			5	        34800.0000
+Shivam	34	India			32000			5	        34800.0000
+Rahul	25	India			30000			5	         34800.0000
+Rohit	26	India			40000			5	         34800.0000
+Dave	32	US			30000			1	          30000.0000
+
+
+##SELECT name,age,location,salary,count(*) over (partition by age) as count, avg(salary) over(partition by location) as average FROM EMPLOYEE ;
+
+Output:
+
+name	age	location	salary	count	average
+Rahul	25	India	30000	1	34800.0000
+Ava	26	India	40000	2	34800.0000
+Rohit	26	India	40000	2	34800.0000
+Shivam	34	India	32000	1	34800.0000
+Clark	35	India	32000	1	34800.0000
+Dave	32	US	30000	1	30000.0000
