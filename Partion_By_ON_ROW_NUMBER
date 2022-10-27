@@ -1,0 +1,43 @@
+
+-- create
+CREATE TABLE EMPLOYEE (
+  empId int PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  location varchar(20) NOT NULL,
+  age int,
+  salary int
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'Bangalore',35,32000);
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'Bangalore',32,30000);
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'Pune',26,40000);
+INSERT INTO EMPLOYEE VALUES (0004, 'Shivam', 'Pune',34,32000);
+INSERT INTO EMPLOYEE VALUES (0005, 'Rahul', 'Noida',25,28000);
+INSERT INTO EMPLOYEE VALUES (0006, 'Rishi', 'Noida',26,20000);
+INSERT INTO EMPLOYEE VALUES (0007, 'Mohit', 'Noida',26,10000);
+
+-- fetch 
+select name,salary,location,row_number() over(partition by location order by salary desc) as row_num from EMPLOYEE;
+
+Output:
+
+name		salary	location		row_num
+Clark		32000		Bangalore		1
+Dave		30000		Bangalore		2
+Rahul		28000		Noida			  1
+Rishi		20000		Noida			  2
+Mohit		10000		Noida			  3
+Ava			40000		Pune			  1
+Shivam	32000		Pune			  2
+
+
+-- To get the highest salary getter from each location
+select name,salary,location from (select name,salary,location,row_number() over(partition by location order by salary desc) as row_num from EMPLOYEE) as temptable where row_num=1;
+
+Output:
+
+name	salary	location
+Clark	32000	Bangalore
+Rahul	28000	Noida
+Ava	40000	Pune
