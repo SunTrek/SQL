@@ -1,0 +1,60 @@
+
+-- create
+CREATE TABLE EMPLOYEE (
+  empId int PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  location varchar(20) NOT NULL,
+  age int,
+  salary int
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'Bangalore',35,32000);
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'Bangalore',32,30000);
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'Pune',26,40000);
+INSERT INTO EMPLOYEE VALUES (0004, 'Shivam', 'Pune',34,32000);
+INSERT INTO EMPLOYEE VALUES (0005, 'Rahul', 'Noida',25,28000);
+INSERT INTO EMPLOYEE VALUES (0006, 'Rishi', 'Noida',26,20000);
+INSERT INTO EMPLOYEE VALUES (0007, 'Mohit', 'Noida',26,10000);
+
+-- ROW_NUMBER()
+select name,salary,row_number() over (order by salary desc) as row_num from EMPLOYEE;
+Output:
+
+name	  salary	row_num
+Ava	    40000	    1
+Clark	  32000	    2
+Shivam	32000	    3
+Dave	  30000	    4
+Rahul	  28000	    5
+Rishi	  20000	    6
+Mohit	  10000	    7
+
+--RANK()
+select name,salary,RANK() over (order by salary desc) as RN from EMPLOYEE;
+
+Output:
+
+name	  salary	RN
+Ava	    40000	  1
+Clark	  32000	  2
+Shivam	32000	  2
+Dave	  30000	  4
+Rahul	  28000	  5
+Rishi	  20000	  6
+Mohit	  10000	  7
+
+--DENSE_RANK()
+select name,salary,DENSE_RANK() over (order by salary desc) as DRN from EMPLOYEE;
+
+Output:
+
+name	  salary	DRN
+Ava	    40000	  1
+Clark	  32000	  2
+Shivam	32000	  2
+Dave	  30000	  3
+Rahul	  28000	  4
+Rishi	  20000	  5
+Mohit	  10000	  6
+
