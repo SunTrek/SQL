@@ -1,0 +1,38 @@
+
+-- create
+CREATE TABLE EMPLOYEE (
+  empId int PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  location varchar(20) NOT NULL,
+  age int,
+  salary int
+);
+
+-- insert
+INSERT INTO EMPLOYEE VALUES (0001, 'Clark', 'India',35,32000);
+INSERT INTO EMPLOYEE VALUES (0002, 'Dave', 'US',32,30000);
+INSERT INTO EMPLOYEE VALUES (0003, 'Ava', 'India',26,40000);
+INSERT INTO EMPLOYEE VALUES (0004, 'Shivam', 'India',34,32000);
+INSERT INTO EMPLOYEE VALUES (0005, 'Rahul', 'India',25,30000);
+INSERT INTO EMPLOYEE VALUES (0006, 'Rohit', 'India',26,40000);
+
+-- fetch 
+SELECT name,age,salary,row_number() over(order by salary desc) as rn from EMPLOYEE ;
+
+Output:
+
+name	age	salary	rn
+Ava	26	40000	1
+Rohit	26	40000	2
+Clark	35	32000	3
+Shivam	34	32000	4
+Dave	32	30000	5
+Rahul	25	30000	6
+
+
+== To fetch 5th highest salary
+select * from (SELECT name,age,salary,row_number() over(order by salary desc) as rn from EMPLOYEE )  as temp where rn=5;
+Output:
+
+name	age	salary	rn
+Dave	32	30000	5
