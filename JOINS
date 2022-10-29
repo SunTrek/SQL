@@ -1,0 +1,92 @@
+
+-- create
+CREATE TABLE Student (
+  id int PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  selected_course int
+);
+
+-- insert
+INSERT INTO Student VALUES (0001, 'Clark', 1);
+INSERT INTO Student VALUES (0002, 'Dave', 2);
+INSERT INTO Student VALUES (0003, 'Ava', 2);
+INSERT INTO Student VALUES (0004, 'Shivam', 3);
+INSERT INTO Student VALUES (0005, 'Rahul', 4);
+INSERT INTO Student VALUES (0006, 'Rishi', 3);
+INSERT INTO Student VALUES (0007, 'Mohit', 1);
+INSERT INTO Student VALUES (0008, 'Saurav', 5);
+-- fetch 
+select * from Student;
+
+CREATE TABLE Courses (
+  course_id int PRIMARY KEY,
+  name varchar(20) NOT NULL
+  
+);
+
+INSERT INTO Courses VALUES (0001, 'Big Data');
+INSERT INTO Courses VALUES (0002, 'Web Development');
+INSERT INTO Courses VALUES (0003, 'Python');
+INSERT INTO Courses VALUES (0004, 'GCP');
+
+select * from Courses;
+
+== JOIN or INNER JOIN -- It returns only mathing values/Rows
+select s.name as Student_Name,c.name as Course_Name from Student s join Courses c on s.selected_course=c.course_id;
+
+OUTPUT--
+Student_Name	Course_Name
+Clark	        Big Data
+Dave	        Web Development
+Ava	          Web Development
+Shivam	      Python
+Rahul	        GCP
+Rishi	        Python
+Mohit	        Big Data
+
+== LEFT JOIN -- All matching records + non-matching records in LEFT Tables
+select s.name as Student_Name,c.name as Course_Name from Student s left join Courses c on s.selected_course=c.course_id;
+
+OUTPUT:--
+Student_Name	Course_Name
+Clark	        Big Data
+Dave	        Web Development
+Ava	          Web Development
+Shivam	      Python
+Rahul	        GCP
+Rishi	        Python
+Mohit	        Big Data
+Saurav	      NULL
+
+== RIGHT JOIN -- All matching records + non-matching records in RIGHT Tables
+select s.name as Student_Name,c.name as Course_Name from Student s right join Courses c on s.selected_course=c.course_id;
+
+OUTPUT:--
+Student_Name	Course_Name
+Mohit	        Big Data
+Clark	        Big Data
+Ava	          Web Development
+Dave	        Web Development
+Rishi	        Python
+Shivam	      Python
+Rahul	        GCP
+NULL	        AWS
+
+
+== FULL OUTER JOIN -- LEFT JOIN UNION RIGHT JOIN
+select s.name as Student_Name,c.name as Course_Name from Student s left join Courses c on s.selected_course=c.course_id
+UNION
+select s.name as Student_Name,c.name as Course_Name from Student s right join Courses c on s.selected_course=c.course_id;
+
+OUTPUT:--
+Student_Name	Course_Name
+Clark	        Big Data
+Dave	        Web Development
+Ava	          Web Development
+Shivam	      Python
+Rahul	        GCP
+Rishi	        Python
+Mohit	        Big Data
+Saurav	      NULL
+NULL	        AWS
+
