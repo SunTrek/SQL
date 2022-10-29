@@ -1,0 +1,48 @@
+CREATE TABLE temperatures (
+    at      date,
+    city    text,
+    mintemp integer,
+    maxtemp integer
+)
+PARTITION BY RANGE (at);
+
+
+== Create Table Partition
+CREATE TABLE temperatures_2017
+    PARTITION OF temperatures
+    FOR VALUES FROM ('2017-01-01') TO ('2018-01-01');
+
+CREATE TABLE temperatures_2018
+    PARTITION OF temperatures
+    FOR VALUES FROM ('2018-01-01') TO ('2019-01-01');
+    
+CREATE TABLE temperatures_2019
+    PARTITION OF temperatures
+    FOR VALUES FROM ('2019-01-01') TO ('2020-01-01');
+
+CREATE TABLE temperatures_2020
+    PARTITION OF temperatures
+    FOR VALUES FROM ('2020-01-01') TO ('2021-01-01');
+    
+    
+    
+    select * from temperatures;
+     at     |   city    | mintemp | maxtemp 
+------------+-----------+---------+---------
+ 2017-08-03 | London    |      53 |      80
+ 2017-08-03 | Bangalore |      53 |      90
+ 2018-08-03 | London    |      63 |      90
+ 2018-08-03 | Bangalore |      40 |      80
+ 2019-08-03 | London    |      58 |      78
+ 2019-08-03 | Bangalore |      68 |      85
+ 2020-08-03 | London    |      53 |      80
+ 2020-08-03 | Bangalore |      55 |      78
+(8 rows)
+
+
+select * from temperatures_2020;
+     at     |   city    | mintemp | maxtemp 
+------------+-----------+---------+---------
+ 2020-08-03 | London    |      53 |      80
+ 2020-08-03 | Bangalore |      55 |      78
+(2 rows)
