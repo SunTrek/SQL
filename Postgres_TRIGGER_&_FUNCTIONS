@@ -1,0 +1,59 @@
+== TABLE
+postgres=> select * from student;
+  fname  | lname  | marks 
+---------+--------+-------
+ Tom     | Shelby |   598
+ Richard | Smith  |   478
+ Steve   | Roger  |   656
+(3 rows)
+
+
+== 1ST CREATE FUNCTION ON THIS TABLE  FOR NEW ENTRY OF THE STUDENT, ADD 100 TO MARKS
+
+postgres=> CREATE OR REPLACE FUNCTION STUDENT_MARK_UPDATE ()
+ RETURNS TRIGGER
+ LANGUAGE PLPGSQL
+ AS
+ $FUNCTION$
+ BEGIN
+NEW.marks = NEW.marks + 100 ;
+ RETURN NEW;
+ END
+ $FUNCTION$;
+
+== CREATE TRIGGER ON FUNCTION TO EXECUTE IT ON NEW ENTRY
+
+postgres=> CREATE TRIGGER MARK_UPDATE_TRIGGER
+postgres-> BEFORE INSERT
+postgres-> ON student
+postgres-> FOR EACH ROW
+postgres-> EXECUTE FUNCTION STUDENT_MARK_UPDATE();
+CREATE TRIGGER
+postgres=> 
+
+
+=
+
+postgres=> INSERT INTO STUDENT VALUES ('TONY','START',598);
+INSERT 0 1
+postgres=> 
+postgres=> select * from student;
+  fname  | lname  | marks 
+---------+--------+-------
+ Tom     | Shelby |   598
+ Richard | Smith  |   478
+ Steve   | Roger  |   656
+ TONY    | START  |   698
+(4 rows)
+
+postgres=> INSERT INTO STUDENT VALUES ('BRUCE','WAYNE',598);
+INSERT 0 1
+postgres=> select * from student;
+  fname  | lname  | marks 
+---------+--------+-------
+ Tom     | Shelby |   598
+ Richard | Smith  |   478
+ Steve   | Roger  |   656
+ TONY    | START  |   698
+ BRUCE   | WAYNE  |   698
+(5 rows)
