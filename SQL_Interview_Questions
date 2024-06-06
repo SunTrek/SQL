@@ -1,0 +1,21 @@
+There are 2 tables :table_name1 and table2, compare table 2 data with table1 and if data is missing in table2 insert those data in table2 and if values of any row is updated in table1 then update same in table2. is changed in T1 then update same in T2.
+	
+	
+	
+	
+	=
+	
+	insert into table2 (id,column1,column2)
+	
+	select t1.* or t1.id,t1.column1,t1.column2
+	
+	left join table2 as t2 on t1.id=t2.id
+	where t2.id is null;
+	
+	Update table2
+	set t2.column1 = t1.column1,
+		t2.column2 = t1.column2
+		
+		from table_2 ad t2 
+		inner join table_1 as t1 on t1.id=t2.id
+		where t2.column2 <> t1.column2 or t2.column1<> t1.column1;
